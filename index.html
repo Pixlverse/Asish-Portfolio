@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- ================= SEO ================= -->
+    <title>Asish Thomas Murickaveli — I Build Influence</title>
+    <meta
+      name="description"
+      content="Asish Thomas Murickaveli — Entrepreneur, Creative Director and Public Leader. Founder of Hiwaga Makers. Building influence across business, politics and media."
+    />
+    <meta name="author" content="Asish Thomas Murickaveli" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://asishthomas.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Asish Thomas Murickaveli — I Build Influence"
+    />
+    <meta
+      property="og:description"
+      content="Entrepreneur. Creative Director. Public Leader. I help businesses, leaders and communities earn attention that lasts."
+    />
+    <meta property="og:image" content="assets/img/portrait.png" />
+    <meta property="og:url" content="https://asishthomas.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- ================= FONTS ================= -->
+    <!-- SF Pro Display is the target face and resolves natively on Apple platforms
+       (see --font-sans). Inter Tight is the fallback grotesk for everyone else;
+       Italiana + Parisienne set the wordmark and the "Hello, I'm" line;
+       Anton carries the industries strip. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Italiana&family=Parisienne&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ================= STYLES (modular) ================= -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/sections.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+
+    <!-- The hero portrait is the LCP element — fetch it alongside the CSS -->
+    <link
+      rel="preload"
+      as="image"
+      href="assets/img/portrait.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
+
+    <!-- Flag JS support before first paint so no-JS visitors still see everything -->
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Asish Thomas Murickaveli",
+        "jobTitle": ["Entrepreneur", "Creative Director", "Public Leader"],
+        "worksFor": { "@type": "Organization", "name": "Hiwaga Makers" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Kottayam",
+          "addressRegion": "Kerala",
+          "addressCountry": "IN"
+        },
+        "description": "Builder of influence across business, politics and media."
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- ============================================================
+     PRELOADER — a single counting line, no logos, no spinners
+============================================================ -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <span class="preloader__word">INFLUENCE</span>
+        <span class="preloader__count" id="preloaderCount">00</span>
+      </div>
+      <div class="preloader__bar"><i id="preloaderBar"></i></div>
+    </div>
+
+    <!-- Film grain overlay -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Scroll progress -->
+    <div class="scroll-progress" aria-hidden="true">
+      <i id="scrollProgress"></i>
+    </div>
+
+    <a class="skip-link" href="#hero">Skip to content</a>
+
+    <!-- ============================================================
+     NAVIGATION
+============================================================ -->
+    <header class="nav" id="nav">
+      <div class="nav__inner">
+        <!-- Brand mark: a signature wordmark. Script given name over a
+         letterspaced surname — the same pairing as the footer lockup. -->
+        <a
+          href="#hero"
+          class="brand"
+          aria-label="Asish Thomas Murickaveli — home"
+        >
+          <span class="brand__script">Asish Thomas</span>
+          <span class="brand__surname">Murickaveli</span>
+        </a>
+
+        <button
+          class="nav__toggle"
+          id="navToggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Fullscreen menu -->
+    <div
+      class="menu"
+      id="menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+      hidden
+    >
+      <div class="menu__list">
+        <a href="#hero" data-nav><em>01</em> Home</a>
+        <a href="#story" data-nav><em>02</em> Story</a>
+        <a href="#pillars" data-nav><em>03</em> Pillars</a>
+        <a href="#journey" data-nav><em>04</em> Journey</a>
+        <a href="#build" data-nav><em>05</em> What I Build</a>
+        <a href="#hiwaga" data-nav><em>06</em> Hiwaga Makers</a>
+        <a href="#leadership" data-nav><em>07</em> Leadership</a>
+        <a href="#film" data-nav><em>08</em> Film</a>
+        <a href="#numbers" data-nav><em>09</em> Impact</a>
+        <a href="#contact" data-nav><em>10</em> Contact</a>
+      </div>
+      <div class="menu__foot">
+        <div class="menu__meta">
+          <span>Kottayam, Kerala</span>
+          <span>Entrepreneur · Creative Director · Public Leader</span>
+        </div>
+        <a href="#contact" class="btn btn--solid" data-nav
+          ><span>Work With Me</span></a
+        >
+      </div>
+    </div>
+
+    <!-- Section indicator rail -->
+    <nav class="rail" id="rail" aria-label="Section navigation">
+      <a href="#hero" data-nav data-rail="Home"><i></i></a>
+      <a href="#story" data-nav data-rail="Story"><i></i></a>
+      <a href="#pillars" data-nav data-rail="Pillars"><i></i></a>
+      <a href="#journey" data-nav data-rail="Journey"><i></i></a>
+      <a href="#build" data-nav data-rail="Build"><i></i></a>
+      <a href="#hiwaga" data-nav data-rail="Hiwaga"><i></i></a>
+      <a href="#leadership" data-nav data-rail="Leadership"><i></i></a>
+      <a href="#film" data-nav data-rail="Film"><i></i></a>
+      <a href="#numbers" data-nav data-rail="Impact"><i></i></a>
+      <a href="#contact" data-nav data-rail="Contact"><i></i></a>
+    </nav>
+
+    <main id="main">
+      <!-- ==========================================================
+       01 · HERO
+  ========================================================== -->
+      <section class="hero" id="hero" data-section>
+        <!-- Oversized display word. Decorative: the portrait crops into it, the
+         way a title card sits behind a subject. -->
+        <div class="hero__word" aria-hidden="true" data-parallax="0.04">
+          <span>INFLUENCE</span>
+        </div>
+
+        <!-- Cut-out portrait: stands in front of the display word, feet feathered
+         into the section edge. WebP first, PNG for older Safari. -->
+        <div class="hero__media" data-parallax="0.06">
+          <picture>
+            <source srcset="assets/img/portrait.webp" type="image/webp" />
+            <img
+              src="assets/img/portrait.png"
+              alt="Portrait of Asish Thomas Murickaveli"
+              class="hero__img"
+              width="767"
+              height="984"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+        </div>
+
+        <div class="hero__inner">
+          <div class="hero__grid">
+            <div class="hero__lead">
+              <p class="hero__script" data-reveal>Hello, I'm</p>
+
+              <h1 class="hero__name" data-split data-delay="140">
+                Asish Thomas<br />Murickaveli
+              </h1>
+
+              <p class="hero__role" data-reveal data-delay="520">
+                I Build Influence.<br />
+                <span>Across Business · Politics · Media</span>
+              </p>
+
+              <p class="hero__copy" data-reveal data-delay="600">
+                Entrepreneur, creative director and public leader. I help
+                businesses, leaders and communities earn attention that lasts —
+                not through trends, through vision.
+              </p>
+
+              <div class="hero__actions" data-reveal data-delay="680">
+                <a href="#journey" class="btn btn--solid" data-nav>
+                  <span>Explore My Journey</span>
+                </a>
+                <a href="#contact" class="btn btn--ghost" data-nav>
+                  <span>Work With Me</span>
+                </a>
+              </div>
+
+              <p class="hero__pill" data-reveal data-delay="760">
+                <span class="dot" aria-hidden="true"></span>
+                Available for collaborations
+              </p>
+            </div>
+
+            <aside class="hero__side">
+              <p class="hero__place" data-reveal data-delay="660">
+                Kottayam, Kerala
+              </p>
+
+              <p class="hero__note" data-reveal data-delay="700">
+                <span class="spark" aria-hidden="true">✦</span>
+                Turning attention into influence that lasts.
+              </p>
+
+              <ul class="hero__stats" aria-label="Track record">
+                <li data-reveal data-delay="760">
+                  <b>40+</b><span>Brands<br />Worked With</span>
+                </li>
+                <li data-reveal data-delay="820">
+                  <b>100+</b><span>Campaigns<br />Delivered</span>
+                </li>
+                <li data-reveal data-delay="880">
+                  <b>8+</b><span>Industries<br />Served</span>
+                </li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       MARQUEE · Industries
+  ========================================================== -->
+      <section class="marquee" aria-label="Industries served">
+        <div class="marquee__track">
+          <div class="marquee__group">
+            <span>Healthcare</span><em>·</em><span>Education</span><em>·</em
+            ><span>Hospitality</span><em>·</em> <span>Construction</span
+            ><em>·</em><span>Travel</span><em>·</em><span>Food</span><em>·</em>
+            <span>Fashion</span><em>·</em><span>Politics</span><em>·</em>
+          </div>
+          <div class="marquee__group" aria-hidden="true">
+            <span>Healthcare</span><em>·</em><span>Education</span><em>·</em
+            ><span>Hospitality</span><em>·</em> <span>Construction</span
+            ><em>·</em><span>Travel</span><em>·</em><span>Food</span><em>·</em>
+            <span>Fashion</span><em>·</em><span>Politics</span><em>·</em>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       02 · STORY
+  ========================================================== -->
+      <section class="section story" id="story" data-section>
+        <div class="wrap">
+          <!-- Band 1 — the statement -->
+          <h2 class="story__statement" data-split>
+            There are people who run businesses.<br />
+            Then there are people who <span class="hl">build movements.</span>
+          </h2>
+
+          <!-- Band 2 — the same five sentences, restructured so they scan -->
+          <ul class="known">
+            <li class="known__item" data-reveal>
+              <span class="known__who">Some people</span>
+              <span class="known__what">A filmmaker.</span>
+            </li>
+            <li class="known__item" data-reveal data-delay="70">
+              <span class="known__who">Others</span>
+              <span class="known__what">Founder of Hiwaga&nbsp;Makers.</span>
+            </li>
+            <li class="known__item" data-reveal data-delay="140">
+              <span class="known__who">Many</span>
+              <span class="known__what">Political campaigns.</span>
+            </li>
+            <li class="known__item" data-reveal data-delay="210">
+              <span class="known__who">Clients</span>
+              <span class="known__what">The one who grows their brand.</span>
+            </li>
+            <li class="known__item" data-reveal data-delay="280">
+              <span class="known__who">Communities</span>
+              <span class="known__what">Someone who shows up.</span>
+            </li>
+          </ul>
+
+          <!-- Band 3 — the conclusion -->
+          <blockquote class="creed" data-reveal>
+            <span>Every chapter of my journey has taught me one thing —</span>
+            <strong
+              >influence is built through trust, vision and execution.</strong
+            >
+            <span>That's what I dedicate my life to.</span>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       03 · PILLARS
+  ========================================================== -->
+      <section class="section pillars" id="pillars" data-section>
+        <div class="wrap">
+          <header class="intro">
+            <h2 class="intro__title" data-split>What defines me.</h2>
+            <p class="intro__sub" data-reveal data-delay="120">
+              Three disciplines, one way of working — I build the business, tell
+              its story and stand behind it in public.
+            </p>
+          </header>
+
+          <div class="cards">
+            <article class="card" data-reveal>
+              <span class="card__glow" aria-hidden="true"></span>
+              <h3 class="card__title">Entrepreneur.</h3>
+              <p class="card__text">I build businesses.<br />Not campaigns.</p>
+              <span class="card__line" aria-hidden="true"></span>
+            </article>
+
+            <article class="card" data-reveal data-delay="90">
+              <span class="card__glow" aria-hidden="true"></span>
+              <h3 class="card__title">Creative Strategist.</h3>
+              <p class="card__text">
+                Stories create attention.<br />Strategy creates impact.
+              </p>
+              <span class="card__line" aria-hidden="true"></span>
+            </article>
+
+            <article class="card" data-reveal data-delay="180">
+              <span class="card__glow" aria-hidden="true"></span>
+              <h3 class="card__title">Public Leader.</h3>
+              <p class="card__text">
+                Business. Politics. Community.<br />Different worlds. One
+                vision.
+              </p>
+              <span class="card__line" aria-hidden="true"></span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       04 · JOURNEY — the statement and the track read as one block:
+       the belief up top, the chapters that prove it underneath.
+  ========================================================== -->
+      <section class="section journey" id="journey" data-section>
+        <!-- Orbit: concentric rings turning around a single point of light.
+         Decorative — the one graphic in the section, kept to its corner. -->
+        <div class="orbit" aria-hidden="true">
+          <span class="orbit__glow"></span>
+          <span class="orbit__ring"></span>
+          <span class="orbit__ring"></span>
+          <span class="orbit__ring"></span>
+        </div>
+
+        <div class="wrap">
+          <div class="journey__head">
+            <p class="statement__line" data-reveal>
+              I don't believe in staying inside one industry.
+            </p>
+            <p
+              class="statement__line statement__line--on"
+              data-reveal
+              data-delay="80"
+            >
+              I believe every industry needs leadership.
+            </p>
+            <p class="statement__small" data-reveal data-delay="160">
+              Whether I'm building a brand, leading a creative team, developing
+              a political campaign or producing visual stories — my goal never
+              changes.
+            </p>
+            <p class="statement__punch" data-reveal data-delay="240">
+              Create impact that people remember.
+            </p>
+          </div>
+
+          <!-- Every chapter visible at once. Interaction is hover + a line that
+           fills as the section scrolls past — nothing is hidden behind a click.
+           Each step owns the connector to its right, so the track stays correct
+           however many columns auto-fit decides on. -->
+          <ol class="track" id="track">
+            <li class="track__step" style="--i: 0" data-reveal>
+              <span class="track__node" aria-hidden="true"></span>
+              <p class="track__year">2019</p>
+              <h3 class="track__title">The Film Industry</h3>
+              <p class="track__role">Assistant Director · Malayalam Cinema</p>
+              <p class="track__text">
+                Learnt storytelling. Leadership. Production. Discipline.
+              </p>
+            </li>
+
+            <li class="track__step" style="--i: 1" data-reveal data-delay="90">
+              <span class="track__node" aria-hidden="true"></span>
+              <p class="track__year">2022</p>
+              <h3 class="track__title">Founded Hiwaga Makers</h3>
+              <p class="track__role">Founder · Creative &amp; Growth Agency</p>
+              <p class="track__text">Turned freelance work into an agency.</p>
+            </li>
+
+            <li class="track__step" style="--i: 2" data-reveal data-delay="180">
+              <span class="track__node" aria-hidden="true"></span>
+              <p class="track__year">Today</p>
+              <h3 class="track__title">Brands Across Industries</h3>
+              <p class="track__role">Strategy · Content · Growth</p>
+              <p class="track__text">
+                Healthcare. Education. Hospitality. Construction. Travel. Food.
+                Fashion. Politics.
+              </p>
+            </li>
+
+            <li
+              class="track__step track__step--future"
+              style="--i: 3"
+              data-reveal
+              data-delay="270"
+            >
+              <span class="track__node" aria-hidden="true"></span>
+              <p class="track__year">Tomorrow</p>
+              <h3 class="track__title">Influence Beyond Business</h3>
+              <p class="track__role">The next chapter</p>
+              <p class="track__text">
+                Building influence that extends beyond business.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       05 · WHAT I BUILD — expanding list, not cards
+  ========================================================== -->
+      <section class="section build" id="build" data-section>
+        <div class="wrap">
+          <h2 class="display" data-split>Not services.</h2>
+
+          <div class="accordion" id="accordion">
+            <div class="acc" data-reveal>
+              <button class="acc__head" aria-expanded="false">
+                <span class="acc__index">01</span>
+                <span class="acc__title">Businesses</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__panel">
+                <div class="acc__inner">
+                  <p>
+                    Ventures built to stand on their own — structure,
+                    positioning, revenue model and the team that runs it. I
+                    don't consult from the sidelines; I build the thing and stay
+                    accountable for whether it works.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc" data-reveal>
+              <button class="acc__head" aria-expanded="false">
+                <span class="acc__index">02</span>
+                <span class="acc__title">Brands</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__panel">
+                <div class="acc__inner">
+                  <p>
+                    Identity, voice and visual language that make a business
+                    recognisable before it is ever explained. A brand is not a
+                    logo — it is the memory people keep of you.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc" data-reveal>
+              <button class="acc__head" aria-expanded="false">
+                <span class="acc__index">03</span>
+                <span class="acc__title">Campaigns</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__panel">
+                <div class="acc__inner">
+                  <p>
+                    Commercial and political. Message architecture, creative
+                    direction, ground execution and the discipline to measure
+                    what actually moved. Attention is easy. Movement is the
+                    work.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc" data-reveal>
+              <button class="acc__head" aria-expanded="false">
+                <span class="acc__index">04</span>
+                <span class="acc__title">Communities</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__panel">
+                <div class="acc__inner">
+                  <p>
+                    People organised around a shared belief outlast any campaign
+                    cycle. I build rooms worth walking into — and keep showing
+                    up in them long after the cameras leave.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc" data-reveal>
+              <button class="acc__head" aria-expanded="false">
+                <span class="acc__index">05</span>
+                <span class="acc__title">Influence</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__panel">
+                <div class="acc__inner">
+                  <p>
+                    The compound result of all four. Influence is what remains
+                    when the budget stops — trust that carries a name into rooms
+                    it was never introduced to.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       06 · HIWAGA MAKERS
+  ========================================================== -->
+      <section class="section hiwaga" id="hiwaga" data-section>
+        <div class="wrap hiwaga__grid">
+          <div class="hiwaga__text">
+            <h2 class="display" data-split>Not just<br />another agency.</h2>
+            <p class="lead" data-reveal>
+              HIWAGA MAKERS was born from a simple belief — businesses deserve
+              storytelling that actually creates growth.
+            </p>
+            <p class="body" data-reveal data-delay="80">
+              Today we work with brands across industries delivering strategy,
+              content, marketing and business development under one roof.
+            </p>
+            <ul class="hiwaga__services" data-reveal data-delay="140">
+              <li>Strategy</li>
+              <li>Content</li>
+              <li>Marketing</li>
+              <li>Business Development</li>
+            </ul>
+            <a
+              href="https://www.hiwagamakers.com/"
+              class="btn btn--line"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><span>Visit Hiwaga</span></a
+            >
+          </div>
+
+          <!-- The right column is the logo itself — no placeholder artwork behind it. -->
+          <figure class="hiwaga__aside" data-parallax="0.06">
+            <a
+              class="hiwaga__logo"
+              href="https://www.hiwagamakers.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Hiwaga Makers — visit the website"
+              data-reveal
+            >
+              <picture>
+                <source
+                  srcset="assets/img/hiwaga-logo.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="assets/img/hiwaga-logo.png"
+                  alt="Hiwaga Makers"
+                  width="560"
+                  height="152"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </a>
+            <figcaption data-reveal data-delay="120">
+              Hiwaga Makers · Kottayam, Kerala
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       07 · LEADERSHIP
+  ========================================================== -->
+      <section class="section leadership" id="leadership" data-section>
+        <!-- The king holds the right edge of the section and fades into the black. -->
+        <figure class="leadership__media" data-parallax="0.05">
+          <img
+            src="assets/img/chess.jpg"
+            alt="A chess king lit against the dark"
+            width="880"
+            height="1100"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
+        <div class="wrap leadership__inner">
+          <h2 class="display display--lg" data-split>
+            Leadership<br />beyond business<span class="dot">.</span>
+          </h2>
+
+          <div class="triad">
+            <div class="triad__item" data-reveal>
+              <span class="triad__icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2.5" y="7.5" width="19" height="12.5" rx="2.5" />
+                  <path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5" />
+                  <path d="M2.5 12.5h19" />
+                </svg>
+              </span>
+              <div class="triad__body">
+                <span class="triad__k">Business</span>
+                <p>taught me strategy.</p>
+              </div>
+            </div>
+
+            <div class="triad__item" data-reveal data-delay="80">
+              <span class="triad__icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2.5 9.5 12 4l9.5 5.5" />
+                  <path d="M5.5 10v7.5M9.8 10v7.5M14.2 10v7.5M18.5 10v7.5" />
+                  <path d="M3.5 20.5h17" />
+                </svg>
+              </span>
+              <div class="triad__body">
+                <span class="triad__k">Politics</span>
+                <p>taught me people.</p>
+              </div>
+            </div>
+
+            <div class="triad__item" data-reveal data-delay="160">
+              <span class="triad__icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="9" cy="8.5" r="3.2" />
+                  <path d="M3 20c0-3.4 2.7-6.1 6-6.1s6 2.7 6 6.1" />
+                  <path d="M16.2 5.7a3 3 0 0 1 0 5.7" />
+                  <path d="M17.8 14.5c1.9.9 3.2 2.9 3.2 5.5" />
+                </svg>
+              </span>
+              <div class="triad__body">
+                <span class="triad__k">Community</span>
+                <p>taught me responsibility.</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="note" data-reveal data-delay="220">
+            <span class="note__spark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1q1 9 11 11-10 2-11 11-1-9-11-11 10-2 11-11z" />
+              </svg>
+            </span>
+            <span>Together they shaped the leader I am today.</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       08 · FILM
+  ========================================================== -->
+      <section class="section film" id="film" data-section>
+        <div class="wrap">
+          <!-- One card: the set on the left, the lesson on the right, a gold seam
+           between them. The seam SVG and the image's clip-path share the same
+           coordinates, so the line always sits exactly on the cut. -->
+          <div class="film__card">
+            <figure class="film__media">
+              <img
+                src="assets/img/chair.jpg"
+                alt="A director's chair and lamp on a smoke-filled set"
+                width="1500"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+
+            <svg
+              class="film__seam"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <polyline points="42,0 38.5,25 36,50 38.5,75 43,100" />
+            </svg>
+            <!-- The dot is HTML, not SVG: a circle inside a stretched viewBox
+             would render as an ellipse. -->
+            <span class="film__dot" aria-hidden="true"></span>
+
+            <div class="film__body">
+              <h2 class="display" data-split>
+                Storytelling was my<br />first business school<span class="dot"
+                  >.</span
+                >
+              </h2>
+              <div class="film__cols">
+                <p data-reveal>
+                  Before marketing. Before entrepreneurship. Before building
+                  brands — I learnt how stories move people.
+                </p>
+                <p data-reveal data-delay="80">
+                  Working in Malayalam cinema taught me visual communication,
+                  leadership under pressure and creative discipline. Those
+                  lessons continue to shape every project I lead today.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       09 · NUMBERS
+  ========================================================== -->
+      <section class="section numbers" id="numbers" data-section>
+        <div class="wrap">
+          <div class="numbers__grid">
+            <div class="num" data-reveal>
+              <span class="num__value" data-count="40" data-suffix="+">0</span>
+              <span class="num__label">Brands Worked With</span>
+            </div>
+            <div class="num" data-reveal data-delay="80">
+              <span class="num__value" data-count="8" data-suffix="+">0</span>
+              <span class="num__label">Industries</span>
+            </div>
+            <div class="num" data-reveal data-delay="160">
+              <span class="num__value" data-count="100" data-suffix="+">0</span>
+              <span class="num__label">Campaigns</span>
+            </div>
+            <div class="num" data-reveal data-delay="240">
+              <span class="num__value" data-count="4" data-suffix="+">0</span>
+              <span class="num__label">Years Building Businesses</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       SKILLS
+  ========================================================== -->
+      <section class="section skills" id="skills" data-section>
+        <div class="wrap">
+          <div class="skills__grid">
+            <div class="skill" data-reveal>
+              <h3>Creative Leadership</h3>
+              <ul>
+                <li>Direction</li>
+                <li>Video Production</li>
+                <li>Storytelling</li>
+                <li>Brand Identity</li>
+              </ul>
+            </div>
+            <div class="skill" data-reveal data-delay="80">
+              <h3>Business Strategy</h3>
+              <ul>
+                <li>Business Development</li>
+                <li>Client Relations</li>
+                <li>Team Leadership</li>
+                <li>Growth Planning</li>
+              </ul>
+            </div>
+            <div class="skill" data-reveal data-delay="160">
+              <h3>Marketing</h3>
+              <ul>
+                <li>Social Media</li>
+                <li>Advertising</li>
+                <li>Lead Generation</li>
+                <li>Brand Strategy</li>
+              </ul>
+            </div>
+            <div class="skill" data-reveal data-delay="240">
+              <h3>Public Leadership</h3>
+              <ul>
+                <li>Community Outreach</li>
+                <li>Networking</li>
+                <li>Negotiation</li>
+                <li>Communication</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       PHILOSOPHY
+  ========================================================== -->
+      <section class="section philosophy" data-section>
+        <div class="wrap">
+          <h2 class="philosophy__big" data-split>
+            People don't buy products.<br />They buy belief.
+          </h2>
+          <div class="philosophy__sub">
+            <p data-reveal>Businesses don't grow because of marketing.</p>
+            <p data-reveal data-delay="80">
+              They grow because people trust them.
+            </p>
+            <p class="philosophy__punch" data-reveal data-delay="160">
+              That's what I build. <span>Trust.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+       12 · CONTACT
+  ========================================================== -->
+      <!-- The ask and the signature sit side by side — one closing spread rather
+       than two stacked full-width blocks. The footer keeps only its meta bar. -->
+      <section class="section contact" id="contact" data-section>
+        <div class="wrap contact__grid">
+          <div class="contact__inner">
+            <h2 class="contact__big" data-split>
+              Great things never<br />happen alone.
+            </h2>
+            <p class="contact__sub" data-reveal>
+              Let's build something people won't forget.
+            </p>
+
+            <a href="mailto:hello@asishthomas.com" class="btn btn--big"
+              ><span>Let's Talk</span></a
+            >
+          </div>
+
+          <div class="sign" data-reveal data-delay="120">
+            <div class="wordmark" aria-hidden="true">
+              <span class="wordmark__the">the</span>
+              <span class="wordmark__name">Asish <i>/</i> Thomas</span>
+            </div>
+
+            <p class="footer__name">Asish Thomas Murickaveli</p>
+            <p class="footer__roles">
+              Entrepreneur. <span>Creative Director.</span> Public Leader.
+            </p>
+
+            <div class="footer__links">
+              <a href="#">LinkedIn</a>
+              <a href="#">Instagram</a>
+              <a href="#">YouTube</a>
+              <a href="#">X</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================
+     FOOTER — meta bar only; the signature lives in the closing spread
+============================================================ -->
+    <footer class="footer" data-section>
+      <div class="wrap">
+        <div class="footer__bottom">
+          <span>Kottayam, Kerala</span>
+          <span
+            >&copy; <span id="year">2026</span> Asish Thomas Murickaveli</span
+          >
+          <a href="#hero" data-nav>Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

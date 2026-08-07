@@ -1,0 +1,495 @@
+/* ============================================================
+   COMPONENTS — chrome that lives above the page
+   Preloader · Grain · Nav · Menu ·
+   Rail · Buttons · Marquee · Accordion
+============================================================ */
+
+/* ------------------------------------------------------------
+   PRELOADER
+------------------------------------------------------------ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  background: var(--black);
+  display: grid;
+  place-content: center;
+  transition: opacity 700ms var(--ease), visibility 700ms;
+}
+.preloader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.preloader__inner {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+.preloader__word {
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: var(--ls-tight);
+}
+.preloader__count {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  color: var(--white-40);
+  font-variant-numeric: tabular-nums;
+}
+.preloader__bar {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: var(--gutter);
+  height: 1px;
+  background: var(--white-08);
+  overflow: hidden;
+}
+.preloader__bar i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms linear;
+}
+
+/* ------------------------------------------------------------
+   GRAIN — texture keeps flat black from looking like dead pixels
+------------------------------------------------------------ */
+.grain {
+  position: fixed;
+  inset: -100%;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(6) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  16%  { transform: translate(-2%, -3%); }
+  33%  { transform: translate(-4%, 2%); }
+  50%  { transform: translate(2%, -4%); }
+  66%  { transform: translate(-1%, 3%); }
+  83%  { transform: translate(3%, 1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ------------------------------------------------------------
+   SCROLL PROGRESS
+------------------------------------------------------------ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: calc(var(--z-nav) + 1);
+  pointer-events: none;
+}
+.scroll-progress i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ------------------------------------------------------------
+   NAVIGATION
+------------------------------------------------------------ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: var(--z-nav);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 500ms var(--ease),
+    backdrop-filter 500ms var(--ease),
+    border-color 500ms var(--ease),
+    transform 600ms var(--ease);
+}
+.nav.is-solid {
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-bottom-color: var(--line);
+}
+.nav.is-hidden { transform: translate3d(0, -100%, 0); }
+
+.nav__inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* ---------- Brand mark ---------- */
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-block: 0.15rem;
+}
+.brand__script {
+  font-family: var(--font-script);
+  font-size: clamp(1.45rem, 1.9vw, 1.8rem);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  /* script faces sit high in the box — nudge the optical baseline */
+  padding-bottom: 0.06em;
+  transition: opacity 400ms var(--ease);
+}
+.brand__surname {
+  font-size: 0.625rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--white-40);
+  padding-left: 0.2em;
+  transition: color 400ms var(--ease);
+}
+.brand:hover .brand__script { opacity: 0.75; }
+.brand:hover .brand__surname { color: var(--white-70); }
+
+.nav__toggle {
+  display: block;
+  position: relative;
+  width: 44px; height: 44px;
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--white-12);
+  border-radius: 13px;
+  transition: background-color 460ms var(--ease), border-color 460ms var(--ease);
+}
+.nav__toggle:hover {
+  background: var(--white);
+  border-color: var(--white);
+}
+.nav__toggle span {
+  position: absolute;
+  left: 13px;
+  width: 18px; height: 1.5px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 420ms var(--ease), background-color 460ms var(--ease);
+}
+.nav__toggle:hover span { background: var(--black); }
+.nav__toggle span:nth-child(1) { top: 19px; }
+.nav__toggle span:nth-child(2) { top: 25px; }
+.nav__toggle.is-open span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+.nav__toggle.is-open span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+
+/* ------------------------------------------------------------
+   FULLSCREEN MENU
+------------------------------------------------------------ */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  background: var(--black);
+  padding: calc(var(--nav-h) + 4vh) var(--gutter) var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(2rem, 5vh, 4rem);
+  /* ten items plus a CTA can outgrow a short laptop — never trap them */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 800ms var(--ease-inout);
+}
+.menu[hidden] { display: none; }
+.menu.is-open { clip-path: inset(0 0 0 0); }
+
+.menu__list { display: flex; flex-direction: column; }
+.menu__list a {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: clamp(0.3rem, 1.1vh, 0.7rem) 0;
+  font-size: clamp(1.5rem, 6vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: var(--ls-tight);
+  color: var(--white-40);
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+  transition: color 300ms var(--ease), opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+.menu.is-open .menu__list a { opacity: 1; transform: none; }
+.menu__list a:hover { color: var(--white); }
+.menu__list a em {
+  font-style: normal;
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  color: var(--white-25);
+}
+.menu__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+.menu__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+
+/* ------------------------------------------------------------
+   SECTION RAIL
+------------------------------------------------------------ */
+.rail {
+  position: fixed;
+  right: calc(var(--gutter) * 0.5);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: calc(var(--z-nav) - 1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 600ms var(--ease);
+}
+.rail.is-on { opacity: 1; }
+.rail a {
+  display: block;
+  position: relative;
+  padding: 4px;
+}
+.rail a i {
+  display: block;
+  width: 18px; height: 1px;
+  background: var(--white-25);
+  transition: background-color 400ms var(--ease), width 400ms var(--ease);
+}
+.rail a:hover i { background: var(--white-70); width: 26px; }
+.rail a.is-active i { background: var(--white); width: 34px; }
+.rail a::before {
+  content: attr(data-rail);
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translate(6px, -50%);
+  font-size: 0.625rem;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-55);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 300ms var(--ease), transform 300ms var(--ease);
+}
+.rail a:hover::before { opacity: 1; transform: translate(0, -50%); }
+
+/* ------------------------------------------------------------
+   BUTTONS
+------------------------------------------------------------ */
+.btn {
+  --btn-pad-y: 1.05rem;
+  --btn-pad-x: 2.2rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border-radius: 100px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  isolation: isolate;
+  white-space: nowrap;
+  transition: color 480ms var(--ease), border-color 480ms var(--ease);
+  will-change: transform;
+}
+.btn span { position: relative; z-index: 2; }
+
+/* the wipe */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--white);
+  transform: translate3d(0, 101%, 0);
+  transition: transform 620ms var(--ease);
+}
+.btn:hover::before { transform: none; }
+
+.btn--solid {
+  background: var(--white);
+  color: var(--black);
+}
+.btn--solid::before { background: var(--black); }
+.btn--solid:hover { color: var(--white); }
+
+.btn--ghost {
+  border: 1px solid var(--white-25);
+  color: var(--white);
+}
+.btn--ghost:hover { color: var(--black); border-color: var(--white); }
+
+.btn--line {
+  padding-inline: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--white-25);
+  margin-top: 2.5rem;
+}
+.btn--line::before { display: none; }
+.btn--line span::after {
+  content: " ↗";
+  display: inline-block;
+  transition: transform 420ms var(--ease);
+}
+.btn--line:hover { border-bottom-color: var(--white); }
+.btn--line:hover span::after { transform: translate3d(4px, -4px, 0); }
+
+.btn--big {
+  --btn-pad-y: clamp(1.1rem, 2vw, 1.6rem);
+  --btn-pad-x: clamp(2.5rem, 6vw, 4.5rem);
+  background: var(--white);
+  color: var(--black);
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+}
+.btn--big::before { background: var(--black); }
+.btn--big:hover { color: var(--white); box-shadow: inset 0 0 0 1px var(--white-25); }
+
+/* ------------------------------------------------------------
+   MARQUEE
+------------------------------------------------------------ */
+.marquee {
+  position: relative;
+  padding-block: clamp(1.75rem, 3vw, 2.75rem);
+  border-block: 1px solid var(--line-soft);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__group {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-right: clamp(1.5rem, 3vw, 3rem);
+}
+.marquee__group span {
+  font-family: var(--font-impact);
+  font-size: clamp(1.35rem, 2.4vw, 2.25rem);
+  font-weight: 400;              /* Anton ships one weight and it is heavy */
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--white-40);
+  transition: color 400ms var(--ease), -webkit-text-stroke-color 400ms var(--ease);
+}
+/* alternating outline gives the strip rhythm instead of a wall of caps */
+.marquee__group span:nth-of-type(even) {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--white-25);
+}
+.marquee__group span:hover {
+  color: var(--white);
+  -webkit-text-stroke-color: var(--white);
+}
+.marquee__group em { color: var(--accent); font-style: normal; opacity: 0.5; }
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ------------------------------------------------------------
+   ACCORDION
+------------------------------------------------------------ */
+.accordion {
+  max-width: 64rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.acc { border-top: 1px solid var(--line); }
+.acc:last-child { border-bottom: 1px solid var(--line); }
+
+.acc__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(0.9rem, 1.8vw, 1.5rem) 0;
+  text-align: left;
+  transition: padding-left 560ms var(--ease);
+}
+.acc__head:hover { padding-left: clamp(0.5rem, 1.5vw, 1.5rem); }
+
+.acc__index {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  color: var(--white-25);
+  font-variant-numeric: tabular-nums;
+}
+.acc__title {
+  flex: 1;
+  font-size: clamp(1.4rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: var(--ls-tight);
+  line-height: 1.02;
+  color: var(--white-40);
+  transition: color 460ms var(--ease);
+}
+.acc__head:hover .acc__title,
+.acc__head[aria-expanded="true"] .acc__title { color: var(--white); }
+
+.acc__icon {
+  position: relative;
+  width: 20px; height: 20px;
+  flex: 0 0 auto;
+}
+.acc__icon::before,
+.acc__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 0;
+  width: 100%; height: 1px;
+  background: var(--white-55);
+  transition: transform 520ms var(--ease), background-color 400ms var(--ease);
+}
+.acc__icon::after { transform: rotate(90deg); }
+.acc__head[aria-expanded="true"] .acc__icon::before { background: var(--white); }
+.acc__head[aria-expanded="true"] .acc__icon::after { transform: rotate(0deg); background: var(--white); }
+
+.acc__panel {
+  height: 0;
+  overflow: hidden;
+  transition: height 620ms var(--ease);
+}
+.acc__inner {
+  padding: 0 0 clamp(1.75rem, 4vw, 3rem) clamp(0rem, 6vw, 7.5rem);
+  max-width: 68ch;
+  color: var(--white-55);
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 520ms var(--ease) 80ms, transform 520ms var(--ease) 80ms;
+}
+.acc.is-open .acc__inner { opacity: 1; transform: none; }

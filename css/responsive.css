@@ -1,0 +1,223 @@
+/* ============================================================
+   RESPONSIVE — 320px → 4K
+   Most layouts are intrinsically fluid (clamp + auto-fit grids).
+   These breakpoints only handle the structural collapses.
+============================================================ */
+
+/* ---------- ≤ 1280px : rail gets tight ---------- */
+@media (max-width: 1280px) {
+  .rail { display: none; }
+}
+
+/* ---------- ≤ 1024px : two-column blocks stack ---------- */
+@media (max-width: 1024px) {
+  .hiwaga__grid,
+  .contact__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* stacked, the signature's divider turns into a rule above it */
+  .sign {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  /* stacked, the mark leads the section and returns to the left edge */
+  .hiwaga__aside { order: -1; align-items: flex-start; }
+  .hiwaga__aside figcaption { text-align: left; }
+  .hiwaga__logo { width: min(100%, 18rem); }
+
+  /* the known-as row stacks; the vertical dividers become horizontal rules */
+  .known__item + .known__item { padding-left: 0; }
+  .known__item + .known__item::before {
+    left: 0; right: 0; top: 0; bottom: auto;
+    width: auto; height: 1px;
+  }
+
+  /* the king recedes to a backdrop once the copy needs the full width */
+  .leadership__media { width: 70%; opacity: 0.32; }
+  .leadership .display { max-width: none; }
+  .leadership__inner { padding-right: var(--gutter); }
+  /* the triad wraps, so its dividers turn horizontal */
+  .triad__item + .triad__item {
+    padding-left: 0;
+    padding-top: clamp(1.25rem, 3vw, 1.75rem);
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  /* the film card stacks: the set on top, unclipped, and the seam retires */
+  .film__card { min-height: 0; }
+  .film__media {
+    position: static;
+    clip-path: none;
+    height: auto;
+  }
+  .film__media img { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+  .film__seam, .film__dot { display: none; }
+  .film__body {
+    margin-left: 0;
+    padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .film__cols p + p { padding-left: 0; border-left: 0; }
+
+  /* The track stacks, so every connector turns vertical: each step's line
+     drops from its own node to the next one instead of running right. */
+  .track { gap: clamp(1.25rem, 3vw, 2rem); }
+  .track__step {
+    padding-top: 0;
+    padding-left: calc(var(--node) + clamp(1rem, 3vw, 1.5rem));
+    padding-right: 0;
+  }
+  .track__node { top: 0; }
+
+  .track__step::before,
+  .track__step:first-child::before {
+    top: var(--node);
+    left: calc(var(--node) / 2 - 0.5px);
+    right: auto;
+    width: 1px;
+    height: calc(100% + var(--track-gap) - var(--node));
+    background: linear-gradient(180deg, var(--accent), var(--accent-bright));
+    transform: scaleY(clamp(0, calc((var(--fill, 0) - var(--i) * 0.25) * 4), 1));
+    transform-origin: top;
+  }
+  /* the last chapter's dash stops with the step — there is nothing after it */
+  .track__step--future::before {
+    width: 0;
+    height: calc(100% - var(--node));
+    background: none;
+    border-top: 0;
+    border-left: 1px dashed rgba(201, 162, 39, 0.45);
+    transform: none;
+  }
+
+  /* hero side rail drops under the copy and lays its record out in a row */
+  .hero__grid { grid-template-columns: minmax(0, 1fr); }
+  .hero__side {
+    max-width: none;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    margin-top: clamp(2rem, 5vh, 3rem);
+  }
+  .hero__note { max-width: 18rem; }
+  .hero__stats { flex-direction: row; gap: 1.75rem; }
+
+  /* rail has moved below the copy, so the subject reclaims the right edge */
+  .hero__media { right: calc((100% - var(--hero-col)) / 2); opacity: 0.85; }
+}
+
+/* ---------- ≤ 420px : brand reduces to the signature alone ---------- */
+@media (max-width: 420px) {
+  .brand__surname { display: none; }
+}
+
+/* ---------- ≥ 900px : the menu reads as two editorial columns ---------- */
+@media (min-width: 900px) {
+  .menu__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 6vw, 7rem);
+  }
+}
+
+/* ---------- ≤ 720px : phone ---------- */
+@media (max-width: 720px) {
+  .hero {
+    align-items: flex-end;
+    min-height: 100svh;
+  }
+  /* On phones the portrait stops being a backdrop and takes its own space at
+     the foot of the hero — full strength, full width, below the message. */
+  .hero {
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 0;
+  }
+  .hero__inner { order: 1; }
+  .hero__media {
+    order: 2;
+    position: static;
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: 42vh;
+    margin: clamp(1.5rem, 4vh, 2.5rem) calc(var(--gutter) * -1) 0;
+    opacity: 1;
+  }
+  .hero__img {
+    object-position: bottom center;
+    -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+            mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+  }
+
+  /* on phones the copy stack is tall enough to sit over the display word,
+     so it drops back rather than fighting the name for legibility */
+  .hero__word { top: calc(var(--nav-h) + 2vh); opacity: 0.34; }
+  .hero__word span {
+    font-size: 22vw;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 38%, transparent 88%);
+            mask-image: linear-gradient(180deg, #000 0%, #000 38%, transparent 88%);
+  }
+  .hero__name { line-height: 0.94; }
+  .hero__actions .btn { flex: 1 1 auto; }
+  .hero__pill { flex-wrap: wrap; row-gap: 0.35rem; }
+  .hero__stats { gap: 1.25rem; }
+  .hero__stats li { padding-left: 0.7rem; }
+
+  .story__statement { max-width: none; }
+
+  /* the orbit is a wide-screen flourish — on a phone it just crowds the type */
+  .orbit { display: none; }
+
+  .acc__head { gap: 1rem; }
+  .acc__inner { padding-left: 0; }
+
+  .footer__bottom { justify-content: center; text-align: center; }
+}
+
+/* ---------- ≤ 420px : small phones ---------- */
+@media (max-width: 420px) {
+  .hero__actions { width: 100%; }
+  .btn { --btn-pad-x: 1.5rem; width: 100%; }
+  .hero__stats { flex-direction: column; gap: 0.85rem; }
+  .hero__pill em { padding-left: 0; border-left: 0; }
+  .wordmark__name { font-size: 1.5rem; }
+}
+
+/* ---------- Short landscape phones ---------- */
+@media (max-height: 560px) and (orientation: landscape) {
+  .hero { min-height: auto; padding-block: calc(var(--nav-h) + 3rem) 4rem; }
+  .menu__list a { padding-block: 0.2rem; font-size: 1.5rem; }
+}
+
+/* ---------- ≥ 1920px : large desktop & 4K ---------- */
+@media (min-width: 1920px) {
+  :root {
+    --maxw: 1520px;
+    --gutter: 6rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --maxw: 1720px;
+    --fs-hero: 8.5rem;
+    --fs-display: 5.75rem;
+    --gutter: 8rem;
+  }
+  body { font-size: 1.1875rem; }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  .nav, .menu, .rail, .grain,
+  .preloader, .scroll-progress, .marquee { display: none !important; }
+  body { background: #fff; color: #000; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}

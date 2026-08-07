@@ -1,0 +1,81 @@
+/* ============================================================
+   VARIABLES — single source of truth for the whole design system
+   Black. White. Type. Space. Nothing decorative.
+============================================================ */
+
+:root {
+  /* ---------- Colour ---------- */
+  --black:        #000000;
+  --off-black:    #050505;
+  --ink:          #0a0a0a;   /* raised surfaces */
+  --white:        #ffffff;
+  --white-90:     rgba(255, 255, 255, 0.90);
+  --white-70:     rgba(255, 255, 255, 0.70);
+  --white-55:     rgba(255, 255, 255, 0.55);
+  --white-40:     rgba(255, 255, 255, 0.40);
+  --white-25:     rgba(255, 255, 255, 0.25);
+  --white-12:     rgba(255, 255, 255, 0.12);
+  --white-08:     rgba(255, 255, 255, 0.08);
+  --line:         rgba(255, 255, 255, 0.10);
+  --line-soft:    rgba(255, 255, 255, 0.06);
+
+  /* The accent — a single tungsten gold. Emphasis, numbers and light; never a fill. */
+  --accent:        #c9a227;
+  --accent-bright: #e8c14a;   /* top of the display-word gradient */
+  --accent-deep:   #6b5310;   /* bottom of it */
+  --accent-glow:   rgba(201, 162, 39, 0.16);
+
+  /* ---------- Type ---------- */
+  /* SF Pro is the target face. On Apple platforms -apple-system resolves to the
+     real SF Pro Display/Text with correct optical sizing; elsewhere Helvetica Neue
+     and Inter Tight (the closest freely-licensable grotesk) stand in. Apple's
+     licence does not permit self-hosting SF Pro as a webfont. */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+               'Helvetica Neue', 'Inter Tight', Inter, Helvetica, Arial, sans-serif;
+  --font-display: 'Italiana', 'Inter Tight', serif;      /* signature wordmark */
+  --font-script: 'Parisienne', 'Snell Roundhand', 'Apple Chancery', cursive;  /* signature */
+  --font-impact: 'Anton', 'Haettenschweiler', 'Arial Narrow Bold', var(--font-sans);
+
+  /* Fluid type scale — 320px → 1920px, clamps keep it sane at 4K */
+  --fs-hero:    clamp(2.5rem, 6.2vw, 7rem);
+  --fs-display: clamp(1.875rem, 3.6vw, 3.5rem);
+  --fs-lg:      clamp(1.625rem, 2.9vw, 2.75rem);
+  --fs-md:      clamp(1.25rem, 1.9vw, 1.75rem);
+  --fs-lead:    clamp(1.0625rem, 1.3vw, 1.25rem);
+  --fs-body:    clamp(1rem, 1.15vw, 1.125rem);
+  --fs-sm:      clamp(0.8125rem, 1vw, 0.9375rem);
+  --fs-label:   clamp(0.6875rem, 0.85vw, 0.75rem);
+
+  --lh-tight:   0.92;
+  --lh-snug:    1.06;
+  --lh-body:    1.62;
+
+  --ls-tight:   -0.045em;   /* big headlines, SF-Pro-Display style optical tightening */
+  --ls-snug:    -0.025em;
+  --ls-wide:    0.22em;     /* labels / eyebrows */
+
+  /* ---------- Space ---------- */
+  --gutter:     clamp(1.25rem, 5vw, 5rem);
+  --section-y:  clamp(3.5rem, 8vh, 6.5rem);
+  --maxw:       1440px;   /* content column — keeps generous air at 1920+ */
+  --maxw-text:  62ch;
+
+  /* ---------- Motion ---------- */
+  --ease:        cubic-bezier(0.22, 1, 0.36, 1);      /* out-expo-ish */
+  --ease-inout:  cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-fast:    280ms;
+  --dur:         620ms;
+  --dur-slow:    1100ms;
+
+  /* ---------- Layers ---------- */
+  --z-menu:     850;
+  --z-nav:      880;   /* above the menu — the toggle doubles as its close button */
+  --z-grain:    900;
+  --z-loader:   1100;
+
+  --nav-h: 84px;
+}
+
+@media (max-width: 720px) {
+  :root { --nav-h: 64px; }
+}

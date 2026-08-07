@@ -1,0 +1,1142 @@
+/* ============================================================
+   SECTIONS — page composition, top to bottom
+============================================================ */
+
+/* ------------------------------------------------------------
+   01 · HERO
+   Layered, front to back:
+     0  radial light bloom
+     1  oversized display word (decorative)
+     2  portrait — crops into the word
+     3  content
+------------------------------------------------------------ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding: calc(var(--nav-h) + 3vh) var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
+  overflow: hidden;
+  --hero-col: min(100% - var(--gutter) * 2, calc(var(--maxw) - var(--gutter) * 2));
+  background:
+    radial-gradient(ellipse 80% 60% at 66% 42%, rgba(201, 162, 39, 0.13), transparent 62%),
+    radial-gradient(ellipse 70% 70% at 12% 8%,  rgba(255, 255, 255, 0.05), transparent 60%),
+    var(--black);
+}
+
+/* ---------- oversized display word ---------- */
+.hero__word {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--nav-h) + 1vh);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.55;
+  will-change: translate;
+}
+.hero__word span {
+  display: block;
+  font-size: 18.6vw;
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.045em;
+  /* weighted so the white name stays the brightest thing on the screen */
+  background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 34%, var(--accent-deep) 96%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  /* fades out before it reaches the copy */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+}
+
+/* ---------- portrait (cut-out PNG, transparent background) ---------- */
+.hero__media {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--nav-h) + 1.5vh);
+  bottom: 0;
+  /* right edge lands on the inner boundary of the side rail, so the subject
+     never runs under the record — the same relationship as the reference */
+  right: calc((100% - var(--hero-col)) / 2 + 15rem);
+  pointer-events: none;
+  will-change: translate;
+}
+.hero__media picture { display: block; height: 100%; }
+.hero__img {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: contrast(1.06) saturate(0.94);
+  /* feathered where the crop meets the section edge */
+  -webkit-mask-image: linear-gradient(180deg, #000 92%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 92%, transparent 100%);
+}
+/* Visible is the resting state — the portrait is only hidden while the
+   preloader is still up, so a blocked or failed animation can never leave
+   the hero empty. */
+html.js body:not(.is-ready) .hero__img { opacity: 0; transform: scale(1.04); }
+body.is-ready .hero__img { animation: heroImg 1.8s var(--ease) 120ms both; }
+@keyframes heroImg {
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- content ---------- */
+.hero__inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  /* .wrap counts its gutter inside max-width, so subtract it to share that column */
+  max-width: calc(var(--maxw) - var(--gutter) * 2);
+  margin-inline: auto;
+}
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+.hero__lead { max-width: 34rem; }
+
+.hero__script {
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 3.4vw, 2.75rem);
+  line-height: 1;
+  color: var(--white-90);
+  margin-bottom: clamp(0.35rem, 1vh, 0.75rem);
+}
+
+.hero__name {
+  font-size: clamp(2.25rem, 4.4vw, 4.25rem);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.hero__role {
+  margin-top: clamp(1rem, 2.5vh, 1.75rem);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.hero__role span {
+  color: var(--white-40);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  font-size: 0.78em;
+}
+
+.hero__copy {
+  margin-top: clamp(0.85rem, 2vh, 1.35rem);
+  max-width: 44ch;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--white-55);
+  text-wrap: pretty;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 3.5vh, 2.25rem);
+}
+
+.hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: clamp(1.5rem, 3.5vh, 2.25rem);
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--white-12);
+  border-radius: 100px;
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-55);
+}
+.hero__pill .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.55);
+  animation: ping 2.6s var(--ease) infinite;
+}
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(201, 162, 39, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0); }
+}
+.hero__pill em {
+  font-style: normal;
+  color: var(--white-40);
+  padding-left: 0.7rem;
+  border-left: 1px solid var(--white-12);
+}
+
+/* ---------- side rail: note + record ---------- */
+.hero__side {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vh, 2.75rem);
+  max-width: 15rem;
+  padding-bottom: clamp(0.5rem, 2vh, 1.5rem);
+}
+.hero__place {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.hero__note {
+  display: flex;
+  gap: 0.65rem;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--white-55);
+}
+.hero__note .spark {
+  color: var(--accent);
+  font-size: 1.1em;
+  line-height: 1.2;
+}
+
+.hero__stats { display: flex; flex-direction: column; gap: clamp(0.85rem, 2vh, 1.35rem); }
+.hero__stats li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(201, 162, 39, 0.45);
+}
+.hero__stats b {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.hero__stats span {
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+
+
+/* ------------------------------------------------------------
+   02 · STORY
+   Three full-width bands — statement, the five ways people know
+   him, then the conclusion. One left axis, no floating blocks.
+------------------------------------------------------------ */
+.story__statement {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: var(--ls-tight);
+  /* wide enough that each sentence holds its own line at desktop sizes */
+  max-width: 46ch;
+}
+
+/* ---------- band 2: known as ---------- */
+.known {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--line);
+}
+.known__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(1.1rem, 1.8vw, 1.6rem) clamp(1rem, 1.6vw, 1.5rem) clamp(1.4rem, 2.2vw, 2rem) 0;
+  transition: padding-left 560ms var(--ease);
+}
+/* hairline between cells, drawn from the divider not the box */
+.known__item + .known__item { padding-left: clamp(1rem, 1.6vw, 1.5rem); }
+.known__item + .known__item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+/* the underline that lights on hover */
+.known__item::after {
+  content: "";
+  position: absolute;
+  left: 0; top: -1px;
+  width: 100%; height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms var(--ease);
+}
+.known__item:hover::after { transform: scaleX(1); }
+
+.known__who {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-25);
+  transition: color 460ms var(--ease);
+}
+.known__item:hover .known__who { color: var(--accent); }
+
+.known__what {
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: var(--ls-snug);
+  color: var(--white-55);
+  transition: color 460ms var(--ease);
+}
+.known__item:hover .known__what { color: var(--white); }
+
+/* ---------- band 3: the conclusion ---------- */
+.creed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15em;
+  margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+  max-width: 40ch;
+  font-size: clamp(1.15rem, 1.8vw, 1.65rem);
+  line-height: 1.35;
+  letter-spacing: var(--ls-snug);
+  color: var(--white-25);
+  text-align: center;
+}
+.creed strong {
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* ------------------------------------------------------------
+   03 · PILLARS — three interactive cards
+------------------------------------------------------------ */
+.intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(0.75rem, 3vw, 3rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.intro__title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+}
+.intro__sub {
+  flex: 1 1 22rem;
+  max-width: 46ch;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--white-40);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: clamp(0.75rem, 1.2vw, 1.25rem);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* no min-height: the grid row already equalises the three, so each card
+     hugs its content instead of padding it out with dead space */
+  padding: clamp(1.25rem, 1.8vw, 1.75rem);
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+  transition:
+    transform 620ms var(--ease),
+    border-color 620ms var(--ease);
+}
+.card:hover {
+  transform: translate3d(0, -6px, 0);
+  border-color: var(--white-25);
+}
+
+/* pointer-tracked spotlight — JS feeds --mx / --my */
+.card__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%),
+              var(--accent-glow), transparent 68%);
+  transition: opacity 520ms var(--ease);
+}
+.card:hover .card__glow { opacity: 1; }
+
+.card__title {
+  font-size: clamp(1.5rem, 2.1vw, 2rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: var(--ls-tight);
+  margin-bottom: 0.7rem;
+}
+.card__text {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--white-40);
+  transition: color 520ms var(--ease);
+}
+.card:hover .card__text { color: var(--white-70); }
+
+/* hairline that draws itself along the foot of the card */
+.card__line {
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 760ms var(--ease);
+}
+.card:hover .card__line { transform: scaleX(1); }
+
+/* ------------------------------------------------------------
+   04 · JOURNEY — the belief, then the chapters that prove it
+------------------------------------------------------------ */
+.journey { overflow: hidden; }          /* the orbit runs past the right edge */
+.journey > .wrap { position: relative; z-index: 1; }
+
+.journey__head {
+  margin-bottom: clamp(3rem, 7vh, 5.5rem);
+}
+
+/* ---------- the statement ---------- */
+.statement__line {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: var(--ls-tight);
+  color: var(--white-40);
+  max-width: 30ch;
+  margin-bottom: 0.35em;
+}
+/* the half that is the actual belief, not the setup */
+.statement__line--on { color: var(--white); }
+.statement__small {
+  font-size: var(--fs-lead);
+  color: var(--white-55);
+  max-width: 52ch;
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.5;
+}
+/* the conclusion — the one line in gold */
+.statement__punch {
+  font-size: var(--fs-md);
+  font-weight: 700;
+  letter-spacing: var(--ls-snug);
+  color: var(--accent-bright);
+}
+
+/* ---------- orbit: rings around a single point of light ---------- */
+.orbit {
+  position: absolute;
+  top: clamp(-14rem, -10vw, -7rem);
+  right: clamp(-12rem, -4vw, -3rem);
+  width: clamp(26rem, 46vw, 44rem);
+  aspect-ratio: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+.orbit > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  translate: -50% -50%;
+}
+.orbit__glow {
+  width: 42%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(232, 193, 74, 0.30) 0%,
+    var(--accent-glow) 26%,
+    rgba(201, 162, 39, 0) 68%
+  );
+}
+.orbit__ring {
+  aspect-ratio: 1;
+  border: 1px solid rgba(201, 162, 39, 0.20);
+  /* the ring itself is symmetrical, so spinning it only moves its marker dot */
+  animation: orbitSpin 120s linear infinite;
+}
+.orbit__ring:nth-of-type(1) { width: 40%; }
+.orbit__ring:nth-of-type(2) { width: 68%; animation-duration: 190s; animation-direction: reverse; }
+.orbit__ring:nth-of-type(3) { width: 100%; animation-duration: 260s; }
+/* a single body travelling each ring */
+.orbit__ring::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+@keyframes orbitSpin {
+  from { rotate: 0deg; }
+  to   { rotate: 360deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit__ring { animation: none; }
+}
+
+/* ---------- the track ---------- */
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  /* the connectors are drawn as `100% + this`, so the value must be readable */
+  --track-gap: clamp(1.5rem, 2.5vw, 2.75rem);
+  --node: clamp(1rem, 1.4vw, 1.375rem);
+  gap: var(--track-gap);
+}
+
+.track__step {
+  position: relative;
+  padding-top: calc(var(--node) + clamp(1.25rem, 2vw, 1.75rem));
+  padding-right: clamp(0.5rem, 1.5vw, 1.5rem);
+  transition: transform 620ms var(--ease);
+}
+.track__step:hover { transform: translate3d(0, -5px, 0); }
+
+/* Each step draws the connector running to the next node. The ring is opaque,
+   so the line reads as ending at its edge. Fill is driven off the track's
+   --fill (JS, on scroll): a quarter of the total per step. */
+.track__step::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--node) / 2);
+  left: 0;
+  width: calc(100% + var(--track-gap));
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  transform: scaleX(clamp(0, calc((var(--fill, 0) - var(--i) * 0.25) * 4), 1));
+  transform-origin: left;
+}
+/* the first node reaches back off the page — the track predates the section */
+.track__step:first-child::before {
+  left: calc(var(--gutter) * -1);
+  width: calc(100% + var(--track-gap) + var(--gutter));
+}
+/* the future is a dashed run to the edge, and it never fills */
+.track__step--future::before {
+  right: calc(var(--gutter) * -1);
+  width: auto;
+  background: none;
+  border-top: 1px dashed rgba(201, 162, 39, 0.45);
+  transform: none;
+}
+html:not(.js) .track__step::before { transform: none; }
+
+.track__node {
+  position: absolute;
+  top: 0; left: 0;
+  width: var(--node);
+  height: var(--node);
+  border-radius: 50%;
+  background: var(--black);
+  border: 1px solid rgba(201, 162, 39, 0.55);
+  transition: border-color 460ms var(--ease), box-shadow 620ms var(--ease),
+              background-color 460ms var(--ease);
+}
+.track__step:hover .track__node {
+  border-color: var(--accent-bright);
+  box-shadow: 0 0 0 5px var(--accent-glow);
+}
+/* the chapter that hasn't happened yet reads fainter */
+.track__step--future .track__node { border-color: rgba(201, 162, 39, 0.28); }
+
+.track__year {
+  font-size: clamp(1.75rem, 2.9vw, 2.75rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: var(--ls-tight);
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  transition: color 520ms var(--ease);
+}
+.track__step--future .track__year {
+  -webkit-text-stroke: 1px var(--white-40);
+  color: transparent;
+}
+.track__step--future:hover .track__year { -webkit-text-stroke-color: var(--white); }
+
+.track__title {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+.track__role {
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white-25);
+  margin-bottom: 0.75rem;
+  transition: color 520ms var(--ease);
+}
+.track__step:hover .track__role { color: var(--accent); }
+
+.track__text {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--white-40);
+  transition: color 520ms var(--ease);
+}
+/* a short gold rule separates the role from the detail */
+.track__text::before {
+  content: "";
+  display: block;
+  width: 1.75rem;
+  height: 1px;
+  margin-bottom: clamp(0.85rem, 1.6vw, 1.25rem);
+  background: var(--accent);
+  opacity: 0.7;
+  transition: width 620ms var(--ease), opacity 520ms var(--ease);
+}
+.track__step:hover .track__text::before { width: 3rem; opacity: 1; }
+.track__step:hover .track__text { color: var(--white-70); }
+
+/* ------------------------------------------------------------
+   05 · WHAT I BUILD
+------------------------------------------------------------ */
+.build .display { color: var(--white-25); }
+
+/* ------------------------------------------------------------
+   06 · HIWAGA
+------------------------------------------------------------ */
+.hiwaga__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 2.5vw, 2.5rem);
+  align-items: center;
+}
+/* Right column: the logo IS the artwork. Nothing sits behind it — the mark
+   is given the whole column and the left column opens on the headline. */
+.hiwaga__aside {
+  display: flex;
+  flex-direction: column;
+  /* Centred, not flush right — right-aligning a mark narrower than its column
+     opens a dead channel between the copy and the logo. */
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+.hiwaga__logo {
+  display: block;
+  width: min(100%, clamp(14rem, 32vw, 30rem));
+  opacity: 0.9;
+  transition: opacity 460ms var(--ease), transform 620ms var(--ease);
+}
+.hiwaga__logo img { width: 100%; height: auto; }
+.hiwaga__logo:hover {
+  opacity: 1;
+  transform: translate3d(0, -4px, 0);
+}
+.hiwaga__aside figcaption {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+  text-align: center;
+}
+
+.hiwaga__text .lead { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.hiwaga__text .body { margin-top: 1.25rem; }
+
+.hiwaga__services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+.hiwaga__services li {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-55);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 0.55rem 1.1rem;
+  transition: border-color 400ms var(--ease), color 400ms var(--ease);
+}
+.hiwaga__services li:hover { border-color: var(--white-40); color: var(--white); }
+
+/* ------------------------------------------------------------
+   07 · LEADERSHIP
+------------------------------------------------------------ */
+.leadership { position: relative; overflow: hidden; }
+
+/* The image holds the right edge and dissolves into the black rather than
+   ending on a hard line, so the copy can run under it without a collision. */
+.leadership__media {
+  position: absolute;
+  top: 0; right: 0;
+  width: clamp(18rem, 34%, 34rem);
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 100%);
+}
+.leadership__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+.leadership__inner {
+  position: relative;
+  z-index: 1;
+  /* Reserves the king's corner instead of narrowing the wrap — narrowing it
+     would re-centre the whole block and pull the copy off the left gutter.
+     Only the solid part needs clearing; the panel's left third is a fade. */
+  padding-right: calc(var(--gutter) + clamp(2rem, 22%, 22rem));
+}
+.leadership .display { max-width: 24ch; }
+/* the gold full stop that closes each headline */
+.dot { color: var(--accent); }
+
+.triad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  max-width: 62rem;
+  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+.triad__item {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.85rem, 1.5vw, 1.15rem);
+}
+/* hairline dividers between the three, never before the first */
+.triad__item + .triad__item {
+  padding-left: clamp(1rem, 2vw, 2rem);
+  border-left: 1px solid var(--line);
+}
+.triad__icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: clamp(2.75rem, 4vw, 3.5rem);
+  aspect-ratio: 1;
+  border-radius: clamp(0.75rem, 1.2vw, 1rem);
+  color: var(--accent-bright);
+  background: linear-gradient(155deg, rgba(201, 162, 39, 0.14), rgba(201, 162, 39, 0.03));
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  transition: border-color 460ms var(--ease), background-color 460ms var(--ease);
+}
+.triad__icon svg { width: 52%; height: 52%; }
+.triad__item:hover .triad__icon { border-color: rgba(201, 162, 39, 0.5); }
+
+.triad__k {
+  display: block;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  letter-spacing: var(--ls-snug);
+  margin-bottom: 0.35rem;
+}
+.triad__item p {
+  color: var(--white-40);
+  font-size: var(--fs-lead);
+}
+/* the short gold rule that closes each item */
+.triad__body::after {
+  content: "";
+  display: block;
+  width: 1.75rem;
+  height: 1px;
+  margin-top: clamp(0.85rem, 1.6vw, 1.25rem);
+  background: var(--accent);
+  opacity: 0.7;
+  transition: width 620ms var(--ease), opacity 520ms var(--ease);
+}
+.triad__item:hover .triad__body::after { width: 3rem; opacity: 1; }
+
+/* ---------- the closing note, in its own frame ---------- */
+.note {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  max-width: 62rem;
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 2.5vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: clamp(0.75rem, 1.2vw, 1rem);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.025), transparent 60%);
+  font-size: var(--fs-lead);
+  color: var(--white-70);
+  transition: border-color 520ms var(--ease);
+}
+.note:hover { border-color: rgba(201, 162, 39, 0.3); }
+.note__spark {
+  flex: 0 0 auto;
+  display: block;
+  width: clamp(1.1rem, 1.6vw, 1.4rem);
+  color: var(--accent-bright);
+}
+.note__spark svg { width: 100%; height: auto; display: block; }
+
+/* ------------------------------------------------------------
+   08 · FILM — one card: the set, a gold seam, the lesson
+------------------------------------------------------------ */
+.film__card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: clamp(1rem, 1.8vw, 1.75rem);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.008));
+  min-height: clamp(22rem, 44vh, 34rem);
+}
+/* Clipped to the same chevron the seam SVG traces. Both are in percentages
+   of the card, so they stay locked together at any size. */
+.film__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  clip-path: polygon(0 0, 42% 0, 38.5% 25%, 36% 50%, 38.5% 75%, 43% 100%, 0 100%);
+}
+/* Sized to the visible wedge, not the whole card — otherwise `cover` scales the
+   photo to the full card width and crops the lamp straight out of frame. */
+.film__media img {
+  width: 46%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  filter: grayscale(100%) contrast(1.08) brightness(0.72);
+}
+.film__seam {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.film__seam polyline {
+  fill: none;
+  stroke: var(--accent);
+  /* the viewBox is stretched, so the stroke must not scale with it */
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1px;
+}
+/* sits on the seam's midpoint — the same 36% / 50% the polyline turns at */
+.film__dot {
+  position: absolute;
+  top: 50%;
+  left: 36%;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12);
+}
+
+.film__body {
+  position: relative;
+  z-index: 2;
+  margin-left: 46%;
+  padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 3rem)
+           clamp(1.75rem, 4vw, 3.5rem) 0;
+}
+.film__body .display { max-width: 22ch; }
+/* the gold rule under the headline */
+.film__body .display::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  background: var(--accent);
+  opacity: 0.8;
+}
+.film__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+.film__cols p {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--white-55);
+}
+/* hairline between the two paragraphs, never before the first */
+.film__cols p + p {
+  padding-left: clamp(1.25rem, 2.5vw, 2.5rem);
+  border-left: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------
+   09 · NUMBERS
+------------------------------------------------------------ */
+.numbers__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: clamp(2rem, 4vw, 3rem);
+}
+.num {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(1.25rem, 2.5vw, 2rem);
+}
+.num__value {
+  display: block;
+  font-size: clamp(2.5rem, 4.8vw, 4.75rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: var(--ls-tight);
+  font-variant-numeric: tabular-nums;
+}
+.num__label {
+  display: block;
+  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+
+/* ------------------------------------------------------------
+   SKILLS
+------------------------------------------------------------ */
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+.skill { border-top: 1px solid var(--line); padding-top: clamp(1.25rem, 2.5vw, 2rem); }
+.skill h3 {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+}
+.skill li {
+  font-size: var(--fs-sm);
+  color: var(--white-40);
+  padding-block: 0.55rem;
+  border-bottom: 1px solid var(--line-soft);
+  transition: color 320ms var(--ease), padding-left 460ms var(--ease);
+}
+.skill li:hover { color: var(--white); padding-left: 0.5rem; }
+
+/* ------------------------------------------------------------
+   PHILOSOPHY
+------------------------------------------------------------ */
+.philosophy { text-align: center; }
+.philosophy__big {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: var(--ls-tight);
+}
+.philosophy__sub {
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
+  color: var(--white-40);
+  font-size: var(--fs-lead);
+}
+.philosophy__punch {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--white-55);
+}
+.philosophy__punch span {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+
+/* ------------------------------------------------------------
+   12 · CONTACT
+------------------------------------------------------------ */
+.contact {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(4.5rem, 11vh, 8rem);
+  text-align: center;
+}
+/* the gold wash that used to sit under the footer — it belongs to the closing
+   spread now that the signature moved up here */
+.contact::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -55%;
+  width: 90vw; height: 70vh;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, var(--accent-glow), transparent 68%);
+  pointer-events: none;
+}
+.contact__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.contact__inner { display: flex; flex-direction: column; align-items: center; }
+
+/* the signature half */
+.sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 1px solid var(--line);
+  padding-left: clamp(2rem, 5vw, 5rem);
+}
+.contact__big {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: var(--ls-tight);
+}
+.contact__sub {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+  font-size: var(--fs-lead);
+  color: var(--white-40);
+}
+.contact .btn--big { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+.contact__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+.contact__meta a { transition: color 320ms var(--ease); }
+.contact__meta a:hover { color: var(--white); }
+
+/* ------------------------------------------------------------
+   FOOTER
+------------------------------------------------------------ */
+.footer {
+  position: relative;
+  padding-block: clamp(1.5rem, 4vh, 2.25rem);
+  border-top: 1px solid var(--line);
+  text-align: center;
+  overflow: hidden;
+}
+.footer .wrap { position: relative; z-index: 1; }
+
+/* signature wordmark */
+.wordmark {
+  position: relative;
+  display: inline-block;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.wordmark__the {
+  position: absolute;
+  top: -0.9em; left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  font-family: var(--font-script);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: var(--white);
+}
+.wordmark__the::before,
+.wordmark__the::after {
+  content: "";
+  position: absolute;
+  top: 60%;
+  width: clamp(2.5rem, 8vw, 5.5rem);
+  height: 1px;
+  background: var(--white-70);
+}
+.wordmark__the::before { right: calc(100% + 0.35rem); }
+.wordmark__the::after  { left: calc(100% + 0.35rem); }
+.wordmark__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 6vw, 4rem);
+  letter-spacing: 0.01em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.wordmark__name i { font-style: normal; color: var(--white-40); padding-inline: 0.15em; }
+
+.footer__name {
+  font-size: clamp(1.25rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: var(--ls-snug);
+}
+.footer__roles {
+  margin-top: 0.75rem;
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+.footer__roles span { color: var(--white-70); }
+
+.footer__links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  font-size: var(--fs-sm);
+}
+.footer__links a {
+  color: var(--white-55);
+  position: relative;
+  transition: color 320ms var(--ease);
+}
+.footer__links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 460ms var(--ease);
+}
+.footer__links a:hover { color: var(--white); }
+.footer__links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* the footer is only this bar now, so it carries no rule or top margin of its own */
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+.footer__bottom a { transition: color 320ms var(--ease); }
+.footer__bottom a:hover { color: var(--white); }
