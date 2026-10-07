@@ -420,76 +420,95 @@
 }
 
 /* ------------------------------------------------------------
-   ACCORDION
+   PILLARS — five open columns divided by hairlines
+   Everything is visible at once. Hover / focus widens one column and
+   lights it (gold rule, gold number); its neighbours recede.
 ------------------------------------------------------------ */
-.accordion {
-  max-width: 64rem;
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.acc { border-top: 1px solid var(--line); }
-.acc:last-child { border-bottom: 1px solid var(--line); }
-
-.acc__head {
-  width: 100%;
+.pillars {
   display: flex;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 2.5rem);
-  padding: clamp(0.9rem, 1.8vw, 1.5rem) 0;
-  text-align: left;
-  transition: padding-left 560ms var(--ease);
+  margin-top: clamp(1.75rem, 3.5vw, 3rem);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
-.acc__head:hover { padding-left: clamp(0.5rem, 1.5vw, 1.5rem); }
 
-.acc__index {
-  font-size: var(--fs-label);
-  letter-spacing: var(--ls-wide);
-  color: var(--white-25);
-  font-variant-numeric: tabular-nums;
+.pillar {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1rem, 1.8vw, 1.75rem) clamp(2rem, 3.5vw, 3.5rem);
+  border-left: 1px solid var(--line);
+  outline: none;
+  transition: flex-grow 760ms var(--ease), opacity 520ms var(--ease);
 }
-.acc__title {
+.pillar:first-child { border-left: 0; padding-left: 0; }
+/* the scroll reveal lives on this wrapper so its transition never fights the hover */
+.pillar__body {
   flex: 1;
-  font-size: clamp(1.4rem, 3.4vw, 2.75rem);
+  display: flex;
+  flex-direction: column;
+}
+.pillar:last-child { padding-right: 0; }
+
+/* the gold rule that draws across the top of the lit column */
+.pillar::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms var(--ease);
+}
+
+.pillar__num {
+  font-size: clamp(2.75rem, 4.6vw, 4.75rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: var(--ls-tight);
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--white-25);
+  margin-bottom: clamp(2.5rem, 6vw, 5.5rem);
+  transition: -webkit-text-stroke-color 520ms var(--ease);
+}
+/* influence is the sum of the other four — it carries the gold at rest */
+.pillar:last-child .pillar__num { -webkit-text-stroke-color: rgba(201, 162, 39, 0.5); }
+
+.pillar__title {
+  font-size: clamp(1.25rem, 2vw, 2rem);
   font-weight: 700;
   letter-spacing: var(--ls-tight);
   line-height: 1.02;
+  color: var(--white-90);
+  transition: color 460ms var(--ease);
+}
+.pillar__text {
+  margin-top: clamp(0.75rem, 1.2vw, 1rem);
+  max-width: 34ch;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
   color: var(--white-40);
   transition: color 460ms var(--ease);
 }
-.acc__head:hover .acc__title,
-.acc__head[aria-expanded="true"] .acc__title { color: var(--white); }
 
-.acc__icon {
-  position: relative;
-  width: 20px; height: 20px;
-  flex: 0 0 auto;
-}
-.acc__icon::before,
-.acc__icon::after {
-  content: "";
-  position: absolute;
-  top: 50%; left: 0;
-  width: 100%; height: 1px;
-  background: var(--white-55);
-  transition: transform 520ms var(--ease), background-color 400ms var(--ease);
-}
-.acc__icon::after { transform: rotate(90deg); }
-.acc__head[aria-expanded="true"] .acc__icon::before { background: var(--white); }
-.acc__head[aria-expanded="true"] .acc__icon::after { transform: rotate(0deg); background: var(--white); }
+.pillar:hover,
+.pillar:focus-visible { flex-grow: 1.55; }
+.pillar:hover::before,
+.pillar:focus-visible::before { transform: scaleX(1); }
+.pillar:hover .pillar__num,
+.pillar:focus-visible .pillar__num { -webkit-text-stroke-color: var(--accent-bright); }
+.pillar:hover .pillar__title,
+.pillar:focus-visible .pillar__title { color: var(--white); }
+.pillar:hover .pillar__text,
+.pillar:focus-visible .pillar__text { color: var(--white-70); }
 
-.acc__panel {
-  height: 0;
-  overflow: hidden;
-  transition: height 620ms var(--ease);
+/* the rest recede while one is lit */
+.pillars:hover .pillar:not(:hover),
+.pillars:has(.pillar:focus-visible) .pillar:not(:focus-visible) { opacity: 0.45; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pillar, .pillar::before { transition: none; }
 }
-.acc__inner {
-  padding: 0 0 clamp(1.75rem, 4vw, 3rem) clamp(0rem, 6vw, 7.5rem);
-  max-width: 68ch;
-  color: var(--white-55);
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  opacity: 0;
-  transform: translate3d(0, 14px, 0);
-  transition: opacity 520ms var(--ease) 80ms, transform 520ms var(--ease) 80ms;
-}
-.acc.is-open .acc__inner { opacity: 1; transform: none; }

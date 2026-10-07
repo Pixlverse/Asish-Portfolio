@@ -11,7 +11,6 @@
      04  Navigation + fullscreen menu
      05  Section rail + active link
      06  Scroll progress + journey track
-     07  Accordion
      08  Animated counters
      09  Magnetic buttons + card spotlight
      11  Parallax
@@ -369,59 +368,6 @@
       // 0 as the track enters the lower third, 1 once it clears the middle
       const p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.25), 0, 1);
       track.style.setProperty('--fill', p.toFixed(3));
-    });
-  })();
-
-
-  /* ==========================================================
-     07 · ACCORDION
-     Height animates px → px, then settles on auto so the panel
-     stays correct through resizes and font swaps.
-  ========================================================== */
-
-  (function accordion() {
-    const items = $$('.acc');
-    if (!items.length) return;
-
-    const close = (item) => {
-      const head  = $('.acc__head', item);
-      const panel = $('.acc__panel', item);
-      if (!head || !panel || head.getAttribute('aria-expanded') !== 'true') return;
-
-      panel.style.height = `${panel.scrollHeight}px`;
-      requestAnimationFrame(() => {
-        item.classList.remove('is-open');
-        head.setAttribute('aria-expanded', 'false');
-        panel.style.height = '0px';
-      });
-    };
-
-    const open = (item) => {
-      const head  = $('.acc__head', item);
-      const panel = $('.acc__panel', item);
-      const inner = $('.acc__inner', item);
-      if (!head || !panel || !inner) return;
-
-      item.classList.add('is-open');
-      head.setAttribute('aria-expanded', 'true');
-      panel.style.height = `${inner.offsetHeight}px`;
-
-      panel.addEventListener('transitionend', function done(e) {
-        if (e.propertyName !== 'height') return;
-        panel.removeEventListener('transitionend', done);
-        if (head.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
-      });
-    };
-
-    items.forEach((item) => {
-      const head = $('.acc__head', item);
-      if (!head) return;
-
-      head.addEventListener('click', () => {
-        const isOpen = head.getAttribute('aria-expanded') === 'true';
-        items.forEach(close);           // one open at a time
-        if (!isOpen) open(item);
-      });
     });
   })();
 

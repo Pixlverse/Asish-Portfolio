@@ -419,7 +419,7 @@
           <!-- Every chapter visible at once. Interaction is hover + a line that
            fills as the section scrolls past — nothing is hidden behind a click.
            Each step owns the connector to its right, so the track stays correct
-           however many columns auto-fit decides on. -->
+           however many steps there are (set --steps in sections.css). -->
           <ol class="track" id="track">
             <li class="track__step" style="--i: 0" data-reveal>
               <span class="track__node" aria-hidden="true"></span>
@@ -433,13 +433,21 @@
 
             <li class="track__step" style="--i: 1" data-reveal data-delay="90">
               <span class="track__node" aria-hidden="true"></span>
-              <p class="track__year">2022</p>
+              <p class="track__year">2020</p>
+              <h3 class="track__title">Ancys Design</h3>
+              <p class="track__role">Took Ownership · Clothing Brand</p>
+              <p class="track__text">Stepped in and took charge of a fashion label.</p>
+            </li>
+
+            <li class="track__step" style="--i: 2" data-reveal data-delay="180">
+              <span class="track__node" aria-hidden="true"></span>
+              <p class="track__year">2020</p>
               <h3 class="track__title">Founded Hiwaga Makers</h3>
               <p class="track__role">Founder · Creative &amp; Growth Agency</p>
               <p class="track__text">Turned freelance work into an agency.</p>
             </li>
 
-            <li class="track__step" style="--i: 2" data-reveal data-delay="180">
+            <li class="track__step" style="--i: 3" data-reveal data-delay="270">
               <span class="track__node" aria-hidden="true"></span>
               <p class="track__year">Today</p>
               <h3 class="track__title">Brands Across Industries</h3>
@@ -452,9 +460,9 @@
 
             <li
               class="track__step track__step--future"
-              style="--i: 3"
+              style="--i: 4"
               data-reveal
-              data-delay="270"
+              data-delay="360"
             >
               <span class="track__node" aria-hidden="true"></span>
               <p class="track__year">Tomorrow</p>
@@ -469,100 +477,77 @@
       </section>
 
       <!-- ==========================================================
-       05 · WHAT I BUILD — expanding list, not cards
+       05 · WHAT I BUILD — five open columns, not cards
   ========================================================== -->
       <section class="section build" id="build" data-section>
         <div class="wrap">
           <h2 class="display" data-split>Not services.</h2>
 
-          <div class="accordion" id="accordion">
-            <div class="acc" data-reveal>
-              <button class="acc__head" aria-expanded="false">
-                <span class="acc__index">01</span>
-                <span class="acc__title">Businesses</span>
-                <span class="acc__icon" aria-hidden="true"></span>
-              </button>
-              <div class="acc__panel">
-                <div class="acc__inner">
-                  <p>
-                    Ventures built to stand on their own — structure,
-                    positioning, revenue model and the team that runs it. I
-                    don't consult from the sidelines; I build the thing and stay
-                    accountable for whether it works.
-                  </p>
-                </div>
+          <!-- All five on one screen as open columns — no cards, nothing behind a
+           click. Hover / focus widens a column and brings it forward; the rest
+           recede. Below 900px the columns stack into rows. -->
+          <ol class="pillars">
+            <li class="pillar" tabindex="0">
+              <div class="pillar__body" data-reveal>
+                <span class="pillar__num" aria-hidden="true">01</span>
+                <h3 class="pillar__title">Businesses</h3>
+                <p class="pillar__text">
+                  Ventures built to stand on their own — structure, positioning,
+                  revenue model and the team that runs it. I don't consult from
+                  the sidelines; I build the thing and stay accountable for
+                  whether it works.
+                </p>
               </div>
-            </div>
+            </li>
 
-            <div class="acc" data-reveal>
-              <button class="acc__head" aria-expanded="false">
-                <span class="acc__index">02</span>
-                <span class="acc__title">Brands</span>
-                <span class="acc__icon" aria-hidden="true"></span>
-              </button>
-              <div class="acc__panel">
-                <div class="acc__inner">
-                  <p>
-                    Identity, voice and visual language that make a business
-                    recognisable before it is ever explained. A brand is not a
-                    logo — it is the memory people keep of you.
-                  </p>
-                </div>
+            <li class="pillar" tabindex="0">
+              <div class="pillar__body" data-reveal data-delay="90">
+                <span class="pillar__num" aria-hidden="true">02</span>
+                <h3 class="pillar__title">Brands</h3>
+                <p class="pillar__text">
+                  Identity, voice and visual language that make a business
+                  recognisable before it is ever explained. A brand is not a
+                  logo — it is the memory people keep of you.
+                </p>
               </div>
-            </div>
+            </li>
 
-            <div class="acc" data-reveal>
-              <button class="acc__head" aria-expanded="false">
-                <span class="acc__index">03</span>
-                <span class="acc__title">Campaigns</span>
-                <span class="acc__icon" aria-hidden="true"></span>
-              </button>
-              <div class="acc__panel">
-                <div class="acc__inner">
-                  <p>
-                    Commercial and political. Message architecture, creative
-                    direction, ground execution and the discipline to measure
-                    what actually moved. Attention is easy. Movement is the
-                    work.
-                  </p>
-                </div>
+            <li class="pillar" tabindex="0">
+              <div class="pillar__body" data-reveal data-delay="180">
+                <span class="pillar__num" aria-hidden="true">03</span>
+                <h3 class="pillar__title">Campaigns</h3>
+                <p class="pillar__text">
+                  Commercial and political. Message architecture, creative
+                  direction, ground execution and the discipline to measure what
+                  actually moved. Attention is easy. Movement is the work.
+                </p>
               </div>
-            </div>
+            </li>
 
-            <div class="acc" data-reveal>
-              <button class="acc__head" aria-expanded="false">
-                <span class="acc__index">04</span>
-                <span class="acc__title">Communities</span>
-                <span class="acc__icon" aria-hidden="true"></span>
-              </button>
-              <div class="acc__panel">
-                <div class="acc__inner">
-                  <p>
-                    People organised around a shared belief outlast any campaign
-                    cycle. I build rooms worth walking into — and keep showing
-                    up in them long after the cameras leave.
-                  </p>
-                </div>
+            <li class="pillar" tabindex="0">
+              <div class="pillar__body" data-reveal data-delay="270">
+                <span class="pillar__num" aria-hidden="true">04</span>
+                <h3 class="pillar__title">Communities</h3>
+                <p class="pillar__text">
+                  People organised around a shared belief outlast any campaign
+                  cycle. I build rooms worth walking into — and keep showing up
+                  in them long after the cameras leave.
+                </p>
               </div>
-            </div>
+            </li>
 
-            <div class="acc" data-reveal>
-              <button class="acc__head" aria-expanded="false">
-                <span class="acc__index">05</span>
-                <span class="acc__title">Influence</span>
-                <span class="acc__icon" aria-hidden="true"></span>
-              </button>
-              <div class="acc__panel">
-                <div class="acc__inner">
-                  <p>
-                    The compound result of all four. Influence is what remains
-                    when the budget stops — trust that carries a name into rooms
-                    it was never introduced to.
-                  </p>
-                </div>
+            <li class="pillar" tabindex="0">
+              <div class="pillar__body" data-reveal data-delay="360">
+                <span class="pillar__num" aria-hidden="true">05</span>
+                <h3 class="pillar__title">Influence</h3>
+                <p class="pillar__text">
+                  The compound result of all four. Influence is what remains
+                  when the budget stops — trust that carries a name into rooms
+                  it was never introduced to.
+                </p>
               </div>
-            </div>
-          </div>
+            </li>
+          </ol>
         </div>
       </section>
 
@@ -904,10 +889,9 @@
             </p>
 
             <div class="footer__links">
-              <a href="#">LinkedIn</a>
-              <a href="#">Instagram</a>
-              <a href="#">YouTube</a>
-              <a href="#">X</a>
+              <a href="https://www.linkedin.com/in/asishmurickaveli/" target="_blank" rel="noopener">LinkedIn</a>
+              <a href="https://www.instagram.com/asish_murickaveli/" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://www.linkedin.com/in/asishmurickaveli/" target="_blank" rel="noopener">Facebook</a>
             </div>
           </div>
         </div>

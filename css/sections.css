@@ -512,7 +512,9 @@ body.is-ready .hero__img { animation: heroImg 1.8s var(--ease) 120ms both; }
 .track {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  /* one column per chapter; ≤1024px the track stacks (responsive.css) */
+  --steps: 5;
+  grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
   /* the connectors are drawn as `100% + this`, so the value must be readable */
   --track-gap: clamp(1.5rem, 2.5vw, 2.75rem);
   --node: clamp(1rem, 1.4vw, 1.375rem);
@@ -529,7 +531,7 @@ body.is-ready .hero__img { animation: heroImg 1.8s var(--ease) 120ms both; }
 
 /* Each step draws the connector running to the next node. The ring is opaque,
    so the line reads as ending at its edge. Fill is driven off the track's
-   --fill (JS, on scroll): a quarter of the total per step. */
+   --fill (JS, on scroll): an equal share of the total per step. */
 .track__step::before {
   content: "";
   position: absolute;
@@ -538,7 +540,7 @@ body.is-ready .hero__img { animation: heroImg 1.8s var(--ease) 120ms both; }
   width: calc(100% + var(--track-gap));
   height: 1px;
   background: linear-gradient(90deg, var(--accent), var(--accent-bright));
-  transform: scaleX(clamp(0, calc((var(--fill, 0) - var(--i) * 0.25) * 4), 1));
+  transform: scaleX(clamp(0, calc((var(--fill, 0) * var(--steps) - var(--i))), 1));
   transform-origin: left;
 }
 /* the first node reaches back off the page — the track predates the section */
@@ -575,7 +577,7 @@ html:not(.js) .track__step::before { transform: none; }
 .track__step--future .track__node { border-color: rgba(201, 162, 39, 0.28); }
 
 .track__year {
-  font-size: clamp(1.75rem, 2.9vw, 2.75rem);
+  font-size: clamp(1.75rem, 2.4vw, 2.5rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: var(--ls-tight);

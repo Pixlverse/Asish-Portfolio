@@ -65,7 +65,10 @@
 
   /* The track stacks, so every connector turns vertical: each step's line
      drops from its own node to the next one instead of running right. */
-  .track { gap: clamp(1.25rem, 3vw, 2rem); }
+  .track {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
   .track__step {
     padding-top: 0;
     padding-left: calc(var(--node) + clamp(1rem, 3vw, 1.5rem));
@@ -81,7 +84,7 @@
     width: 1px;
     height: calc(100% + var(--track-gap) - var(--node));
     background: linear-gradient(180deg, var(--accent), var(--accent-bright));
-    transform: scaleY(clamp(0, calc((var(--fill, 0) - var(--i) * 0.25) * 4), 1));
+    transform: scaleY(clamp(0, calc((var(--fill, 0) * var(--steps) - var(--i))), 1));
     transform-origin: top;
   }
   /* the last chapter's dash stops with the step — there is nothing after it */
@@ -175,10 +178,34 @@
   /* the orbit is a wide-screen flourish — on a phone it just crowds the type */
   .orbit { display: none; }
 
-  .acc__head { gap: 1rem; }
-  .acc__inner { padding-left: 0; }
 
   .footer__bottom { justify-content: center; text-align: center; }
+}
+
+/* ---------- ≤ 900px : the pillars stack into rows ---------- */
+@media (max-width: 900px) {
+  .pillars { flex-direction: column; border-bottom: 0; }
+  .pillar,
+  .pillar:first-child,
+  .pillar:last-child {
+    padding: clamp(1.25rem, 4vw, 1.75rem) 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pillar__body {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: clamp(1rem, 4vw, 1.75rem);
+    align-content: start;
+  }
+  .pillar__num {
+    grid-row: span 2;
+    font-size: clamp(2rem, 9vw, 2.75rem);
+    margin: 0;
+    padding: 0;
+  }
+  .pillar__text { max-width: 60ch; color: var(--white-55); }
+  .pillars:hover .pillar:not(:hover) { opacity: 1; }
 }
 
 /* ---------- ≤ 420px : small phones ---------- */
