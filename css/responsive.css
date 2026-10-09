@@ -169,7 +169,6 @@
   }
   .hero__name { line-height: 0.94; }
   .hero__actions .btn { flex: 1 1 auto; }
-  .hero__pill { flex-wrap: wrap; row-gap: 0.35rem; }
   .hero__stats { gap: 1.25rem; }
   .hero__stats li { padding-left: 0.7rem; }
 
@@ -214,6 +213,7 @@
   .btn { --btn-pad-x: 1.5rem; width: 100%; }
   .hero__stats { flex-direction: column; gap: 0.85rem; }
   .hero__pill em { padding-left: 0; border-left: 0; }
+  .hero__pill { gap: 0.6rem; padding-inline: 1rem; letter-spacing: 0.1em; }
   .wordmark__name { font-size: 1.5rem; }
 }
 

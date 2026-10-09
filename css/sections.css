@@ -57,11 +57,14 @@
 .hero__media {
   position: absolute;
   z-index: 2;
-  top: calc(var(--nav-h) + 1.5vh);
+  /* starts below the nav so the face clears the name column, and is capped
+     at 720px tall: the content column stops widening at --maxw, so on tall
+     screens an uncapped portrait would grow back over the copy */
+  top: max(calc(var(--nav-h) + 10vh), calc(100% - 720px));
   bottom: 0;
-  /* right edge lands on the inner boundary of the side rail, so the subject
-     never runs under the record — the same relationship as the reference */
-  right: calc((100% - var(--hero-col)) / 2 + 15rem);
+  /* the photo carries empty space on its left, so its box tucks slightly
+     under the side rail — the subject itself still ends at the rail edge */
+  right: calc((100% - var(--hero-col)) / 2 + 12rem);
   pointer-events: none;
   will-change: translate;
 }
@@ -165,6 +168,7 @@ body.is-ready .hero__img { animation: heroImg 1.8s var(--ease) 120ms both; }
   color: var(--white-55);
 }
 .hero__pill .dot {
+  flex: none;
   width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--accent);
